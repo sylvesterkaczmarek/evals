@@ -1,3 +1,5 @@
+from typing import Optional
+
 from evals.completion_fns.solver_completion_fn import SolverCompletionFn
 from evals.solvers.solver import Solver, SolverResult
 from evals.task_state import Message, TaskState
@@ -6,13 +8,13 @@ from evals.task_state import Message, TaskState
 class RecordingSolver(Solver):
     def __init__(self) -> None:
         super().__init__()
-        self.task_state = None
+        self.task_state: Optional[TaskState] = None
 
     def _solve(self, task_state: TaskState, **kwargs) -> SolverResult:
         self.task_state = task_state
         return SolverResult("ok")
 
-    def copy(self):
+    def copy(self) -> "RecordingSolver":
         return self
 
 
