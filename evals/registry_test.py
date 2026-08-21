@@ -24,6 +24,7 @@ def test_n_ctx_from_model_name():
 @pytest.mark.parametrize(
     "model_name",
     [
+        "chat-latest",
         "gpt-3.5-turbo",
         "gpt-3.5-turbo-0613",
         "gpt-4",
@@ -41,6 +42,13 @@ def test_n_ctx_from_model_name():
         "gpt-5-2025-08-07",
         "gpt-5.1",
         "gpt-5.1-2025-11-13",
+        "gpt-5.4",
+        "gpt-5.4-mini",
+        "gpt-5.4-nano",
+        "gpt-5.6",
+        "gpt-5.6-sol",
+        "gpt-5.6-terra",
+        "gpt-5.6-luna",
         "o1",
         "o1-mini",
         "o1-2024-12-17",
@@ -79,7 +87,10 @@ def test_legacy_models_use_completions(model_name):
         "gpt-4o-realtime-preview",
         "gpt-5-pro",
         "gpt-5.1-codex",
+        "gpt-5.2-codex",
+        "gpt-5.4-pro",
         "o1-pro",
+        "o3-pro",
         "o3-deep-research",
         "o4-mini-deep-research",
     ],
@@ -94,7 +105,9 @@ def test_fine_tuned_model_routes_using_its_base_model():
     assert openai_model_endpoint("ft:davinci-002:acme:eval:abc123") == "completions"
 
 
-@pytest.mark.parametrize("model_name", ["gpt-4o-mini", "o3-mini", "gpt-5-mini"])
+@pytest.mark.parametrize(
+    "model_name", ["gpt-4o-mini", "o3-mini", "gpt-5-mini", "gpt-5.6-terra"]
+)
 def test_registry_routes_modern_models_to_chat_completion_fn(model_name):
     registry = Registry(registry_paths=[])
 
@@ -115,7 +128,7 @@ def test_registry_routes_known_legacy_model_to_completion_fn():
 
 def test_api_listed_unknown_model_is_not_silently_sent_to_legacy_completions():
     registry = Registry(registry_paths=[])
-    registry.__dict__["api_model_ids"] = ["gpt-5-pro"]
+    registry.__dict__["api_model_ids"] = ["gpt-5.4-pro"]
 
     with pytest.raises(ValueError, match="cannot safely infer a supported endpoint"):
-        registry.make_completion_fn("gpt-5-pro")
+        registry.make_completion_fn("gpt-5.4-pro")
