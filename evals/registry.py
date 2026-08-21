@@ -63,20 +63,16 @@ CHAT_MODEL_PREFIXES = (
     "gpt-4o",
     "gpt-4.1",
     "gpt-4.5",
+    "gpt-5",
     "o1",
     "o3",
     "o4",
 )
 CHAT_MODEL_NAMES = {
+    "chat-latest",
     "gpt-4",
     "gpt-4-32k",
-    "gpt-5",
-    "gpt-5.1",
 }
-CHAT_MODEL_DASH_PREFIXES = (
-    "gpt-5-",
-    "gpt-5.1-",
-)
 
 # These model names can share a GPT/o-series prefix but are not plain text
 # Chat Completions models. Returning None makes Registry emit an actionable
@@ -117,11 +113,7 @@ def openai_model_endpoint(model_name: str) -> Optional[str]:
     if any(marker in base_model_name for marker in NON_CHAT_SPECIALISATION_MARKERS):
         return None
 
-    if (
-        base_model_name in CHAT_MODEL_NAMES
-        or base_model_name.startswith(CHAT_MODEL_PREFIXES)
-        or base_model_name.startswith(CHAT_MODEL_DASH_PREFIXES)
-    ):
+    if base_model_name in CHAT_MODEL_NAMES or base_model_name.startswith(CHAT_MODEL_PREFIXES):
         return "chat"
 
     return None
