@@ -1,6 +1,5 @@
 from typing import Any, Union
 
-import evals
 from evals.prompt.base import is_chat_prompt
 from evals.record import record_match
 
