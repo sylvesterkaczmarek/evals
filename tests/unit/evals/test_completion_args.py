@@ -24,6 +24,10 @@ def test_parse_completion_args_splits_only_first_equals_sign() -> None:
     }
 
 
+def test_parse_completion_args_preserves_apostrophes_in_literal_strings() -> None:
+    assert parse_completion_args("label=don't-stop") == {"label": "don't-stop"}
+
+
 def test_parse_completion_args_rejects_invalid_syntax() -> None:
     with pytest.raises(ValueError, match="key=value"):
         parse_completion_args("temperature")
