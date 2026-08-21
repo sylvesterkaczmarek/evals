@@ -48,7 +48,8 @@ class ModelBasedClassify(evals.Eval):
         if len(self.completion_fns) > 1:
             assert self.multicomp_n == n_models
 
-        self.n_samples = self.sample_kwargs.get("n_samples") or 1
+        configured_n_samples = self.sample_kwargs.get("n_samples")
+        self.n_samples = 1 if configured_n_samples is None else configured_n_samples
         if not isinstance(self.n_samples, int) or self.n_samples < 1:
             raise ValueError("sample_kwargs.n_samples must be a positive integer")
         if self.multicomp_n > 1 and self.n_samples > 1:
@@ -60,7 +61,7 @@ class ModelBasedClassify(evals.Eval):
 
         self.mg = self.registry.get_modelgraded_spec(modelgraded_spec)
 
-    def eval_sample(self, test_sample: dict, rng: Random) -> None:
+    def eval_sample(self, test_sample: dict, rng: Random) -> Union[str, list[str]]:
         """Evaluate a single sample.
 
         Recorded metrics are always: one of the self.choice_strings, or "__invalid__".
