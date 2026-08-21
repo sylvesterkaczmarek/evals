@@ -13,6 +13,23 @@ We include some example implementations inside `evals/completion_fns`. For examp
 oaieval langchain/llm/flan-t5-xl test-match
 ```
 
+### Scoring already-generated outputs
+
+If your dataset already contains model outputs, use the built-in `precomputed` completion source instead of defining a completion function or making API calls. Store the generated response in an `output` field alongside the normal `input` and `ideal` fields:
+
+```jsonl
+{"input": "what is 2 plus 1?", "output": "3", "ideal": "3"}
+{"input": "what is 2 plus 2?", "output": "3", "ideal": "4"}
+```
+
+Then run the eval normally, replacing the model/completion-function argument with `precomputed`:
+
+```
+oaieval precomputed my-eval
+```
+
+The existing eval template still performs the scoring and records normal sampling/match events, but no model request is made. This works with templates that pass each sample's `input` to their completion function unchanged. If your stored response uses a different field name, specify it with `--completion_args`, for example `--completion_args output_key=prediction`.
+
 ## Registering Completion Functions
 Once you have written a completion function, we need to make the class visible to the `oaieval` CLI. Similar to how we register our evals, we also register Completion Functions inside `evals/registry/completion_fns` as `yaml` files. Here is the registration for our langchain LLM completion function:
 ```yaml
@@ -20,8 +37,6 @@ langchain/llm/flan-t5-xl:
   class: evals.completion_fns.langchain_llm:LangChainLLMCompletionFn
   args:
     llm: HuggingFaceHub
-    llm_kwargs:
-      repo_id: google/flan-t5-xl
 ```
 Here is how it breaks down
 `langchain/llm/flan-t5-xl`: This is the top level key that will be used to access this completion function with `oaieval`.
