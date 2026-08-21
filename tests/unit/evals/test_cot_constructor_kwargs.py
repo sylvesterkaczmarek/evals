@@ -1,7 +1,5 @@
 from typing import Any, cast
 
-from evals.completion_fns.cot import ChainOfThoughtCompletionFn
-
 
 class RecordingRegistry:
     def __init__(self) -> None:
@@ -12,7 +10,10 @@ class RecordingRegistry:
         return object()
 
 
-def test_cot_completion_fn_forwards_constructor_kwargs() -> None:
+def test_cot_completion_fn_forwards_constructor_kwargs(monkeypatch: Any) -> None:
+    monkeypatch.setenv("OPENAI_API_KEY", "test")
+    from evals.completion_fns.cot import ChainOfThoughtCompletionFn
+
     registry = RecordingRegistry()
 
     ChainOfThoughtCompletionFn(
