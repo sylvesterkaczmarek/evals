@@ -14,7 +14,7 @@ class StaticSolver(Solver):
         return SolverResult(self.output)
 
 
-class TestSelfConsistencySolver(SelfConsistencySolver):
+class StubSelfConsistencySolver(SelfConsistencySolver):
     def __init__(self, child_solver: Solver) -> None:
         self._child_solver = child_solver
         self.num_generations = 3
@@ -35,7 +35,7 @@ class TestSelfConsistencySolver(SelfConsistencySolver):
 
 def test_count_mode_returns_no_consensus_when_no_answer_can_be_extracted() -> None:
     child_solver = StaticSolver("I could not determine a final answer.")
-    solver = TestSelfConsistencySolver(child_solver)
+    solver = StubSelfConsistencySolver(child_solver)
 
     result = solver(
         TaskState(
