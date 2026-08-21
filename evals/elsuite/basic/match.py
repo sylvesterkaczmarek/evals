@@ -46,7 +46,7 @@ class Match(evals.Eval):
         selected_indices = sorted(rng.sample(range(len(self.few_shot)), count))
         return [self.few_shot[index] for index in selected_indices]
 
-    def eval_sample(self, sample: Any, rng):
+    def eval_sample(self, sample: Any, rng=None):
         assert isinstance(sample, dict), "sample must be a dict"
         assert "input" in sample, "sample must have an 'input' key"
         assert "ideal" in sample, "sample must have an 'ideal' key"
