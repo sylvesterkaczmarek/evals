@@ -11,6 +11,8 @@ For a model completion `a` and a reference list of correct answers `B`, the foll
 - [`basic/includes.py:Includes`](../evals/elsuite/basic/includes.py): `any([(b in a) for b in B])`
 - [`basic/fuzzy_match.py:FuzzyMatch`](../evals/elsuite/basic/fuzzy_match.py): `any([(a in b or b in a) for b in B])`
 
+`Match` also supports few-shot chat prompts through `num_few_shot` and `few_shot_jsonl`. By default it preserves the historical behavior of taking the first N examples. Set `random_few_shot: true` in the eval arguments to select a seeded random subset for each sample instead; selection is reproducible for the same eval seed and sample ID.
+
 To compare a model completion `a` in *JSON format* to a reference list of correct answers `B` also formatted in JSON, use the following eval:
 - [`basic/json_match.py:JsonMatch`](../evals/elsuite/basic/json_match.py) yields a match if `a` is identical to at least one answer from `B`. Two JSON objects are
 identical if they have the same set of keys and the values for each key are identical. Key order is not significant, and whitespace outside values is ignored. Invalid JSON never matches.
@@ -43,7 +45,7 @@ Refer to the [`classify.py:ModelBasedClassify`](../evals/elsuite/modelgraded/cla
 
 ### Example model-graded evals
 
-To instantiate model-graded evals, create a YAML file in `evals/registry/modelgraded` which specifies values for the arguments described above. We have provided a few examples, which illustrate the process for creating a model-graded eval, but which we also believe are general enough to be useful out of the box for many evals.
+To instantiate model-graded evals, create a YAML file in `evals/registry/modelgraded` which specifies values for the arguments described above. We have provided a few examples, which illustrate the process for creating model-graded evals, but which we also believe are general enough to be useful out of the box for many evals.
 
 [`fact.yaml`](../evals/registry/modelgraded/fact.yaml): a factual consistency eval which, given a completion `a` and reference answer `b`, returns:
 - `"A"` if `a` $\subseteq$ `b`, i.e., the submitted answer is a subset of the expert answer and is fully consistent with it.
