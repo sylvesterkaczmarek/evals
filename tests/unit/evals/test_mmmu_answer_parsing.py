@@ -1,3 +1,5 @@
+from typing import Optional
+
 from pytest import mark
 
 from evals.elsuite.mmmu.eval import _extract_multiple_choice_answer
@@ -14,5 +16,7 @@ from evals.elsuite.mmmu.eval import _extract_multiple_choice_answer
         ("No explicit answer", None),
     ],
 )
-def test_extract_multiple_choice_answer_uses_final_valid_marker(text: str, expected: str) -> None:
+def test_extract_multiple_choice_answer_uses_final_valid_marker(
+    text: str, expected: Optional[str]
+) -> None:
     assert _extract_multiple_choice_answer(text) == expected
