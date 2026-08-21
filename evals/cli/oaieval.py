@@ -112,7 +112,7 @@ def get_parser() -> argparse.ArgumentParser:
         "--http-batch-size",
         type=int,
         default=100,
-        help="Number of events to send in each HTTP request when in HTTP mode. Default is 1, i.e. send events individually. Set to a larger number to send events in batches. This option should be used in conjunction with the '--http-run' flag.",
+        help="Number of events to send in each HTTP request when in HTTP mode. Default is 1, i.e., send events individually. Set to a larger number to send events in batches. This option should be used in conjunction with the '--http-run' flag.",
     )
     parser.add_argument(
         "--http-fail-percent-threshold",
