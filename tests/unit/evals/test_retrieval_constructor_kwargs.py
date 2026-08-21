@@ -4,9 +4,9 @@ from typing import Any, cast
 
 class RecordingRegistry:
     def __init__(self) -> None:
-        self.call = None
+        self.call: Any = None
 
-    def make_completion_fn(self, completion_fn: str, **kwargs: Any):
+    def make_completion_fn(self, completion_fn: str, **kwargs: Any) -> Any:
         self.call = (completion_fn, kwargs)
         return object()
 
