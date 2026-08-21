@@ -40,12 +40,12 @@ Refer to the [`classify.py:ModelBasedClassify`](../evals/elsuite/modelgraded/cla
   - `"classify_cot"` (answer then reason) expects that the model response will contain the choice first.
   - `"classify"` expects that the model response will only contain the choice.
 
-  There are two ways to specify `eval_type`. The recommended way is in the `evals/registry/evals` YAML file. If done this way, an instruction will automatically be appended to `prompt` to steer the model towards the expected format (see `ANSWER_PROMPTS` in [the code](../evals/elsuite/modelgraded/classify.py)). Alternatively, you may specify `eval_type` in the `evals/registry/modelgraded` YAML, but you will need to include an appropriate instruction directly in the `prompt`.
+  There are two ways to specify `eval_type`. The recommended way is in the `evals/registry/evals` YAML file. If done this way, an instruction will automatically be appended to `prompt` to steer the model towards the expected format (see `ANSWER_PROMPTS` in [the code](../evals/elsuite/modelgraded/classify.py)). Alternatively, you may specify `eval_type` in the `evals/registry/modelgraded` YAML, but you will need to include an appropriate instruction directly in `prompt`.
 - `output_template` (optional): If specified, determines how the model's output (or outputs, if `n > 1`) will be formatted within the completion.
 
 ### Example model-graded evals
 
-To instantiate model-graded evals, create a YAML file in `evals/registry/modelgraded` which specifies values for the arguments described above. We have provided a few examples, which illustrate the process for creating model-graded evals, but which we also believe are general enough to be useful out of the box for many evals.
+To instantiate model-graded evals, create a YAML file in `evals/registry/modelgraded` which specifies values for the arguments described above. We have provided a few examples, which illustrate the process for creating a model-graded eval, but which we also believe are general enough to be useful out of the box for many evals.
 
 [`fact.yaml`](../evals/registry/modelgraded/fact.yaml): a factual consistency eval which, given a completion `a` and reference answer `b`, returns:
 - `"A"` if `a` $\subseteq$ `b`, i.e., the submitted answer is a subset of the expert answer and is fully consistent with it.
