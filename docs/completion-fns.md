@@ -37,6 +37,8 @@ langchain/llm/flan-t5-xl:
   class: evals.completion_fns.langchain_llm:LangChainLLMCompletionFn
   args:
     llm: HuggingFaceHub
+    llm_kwargs:
+      repo_id: google/flan-t5-xl
 ```
 Here is how it breaks down
 `langchain/llm/flan-t5-xl`: This is the top level key that will be used to access this completion function with `oaieval`.
