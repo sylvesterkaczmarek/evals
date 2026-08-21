@@ -41,11 +41,11 @@ def _split_key_value_args(param_str: str) -> list[str]:
                 quote = None
             continue
 
-        if char in {'"', "'"}:
+        if char == '"':
             quote = char
-        elif char in "[{(":
+        elif char in "[{":
             depth += 1
-        elif char in "]})":
+        elif char in "]}":
             depth -= 1
             if depth < 0:
                 raise ValueError("Unbalanced brackets in --completion_args")
